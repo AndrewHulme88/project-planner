@@ -6,7 +6,7 @@ export default function Task({ task, index }) {
   return (
     <div ref={setNodeRef} {...listeners} {...attributes}
     style={{ transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : "none"}}
-    className="bg-white p-2 rounded shadow mb-2 cursor-grab border border-gray-300"
+    className="task"
     >
       {task.content}
     </div>

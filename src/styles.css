@@ -1,7 +1,50 @@
 :root, html, body {
-  background-color: #35454C;
+  background-color: #24303F;
+  color: #C0B3A0;
+  padding: 20px;
+  min-width: 100%
 }
 
 h1 {
-  color: #C0B3A0;
+  color: #735568;
+}
+
+h2 {
+  color: #320A18;
+}
+
+p {
+  color: #5B4A52
+}
+
+button {
+  background-color: #320A18;
+}
+
+.title {
+  text-align: center;
+}
+
+.container {
+  position: absolute;
+  top: 30px;
+  width: 80%;
+}
+
+.task {
+  background-color: #A89EA9;
+  color: #35454C;
+}
+
+.columns {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.column {
+  text-align: center;
+  background-color: #353D48;
+  padding: 20px;
+  border-radius: 15px;
+  width: 25%;
 }

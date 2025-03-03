@@ -55,7 +55,7 @@ export default function KanbanBoard() {
 
   return (
     <DndContext onDragEnd={onDragEnd}>
-      <div className="flex space-x-4 p-4">
+      <div className="columns">
         {Object.entries(columns).map(([id, column]) => (
           <Column key={id} columnId={id} column={column} addTask={addTask} />
         ))}
