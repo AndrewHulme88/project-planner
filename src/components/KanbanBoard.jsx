@@ -3,9 +3,9 @@ import { DndContext } from "@dnd-kit/core";
 import Column from "./Column";
 
 const initialColumns = {
-  todo: { name: "To Do", items: [{ id: "1", content: "Task 1" }]},
-  inProgress: { name: "In Progress", items: [{ id: "2", content: "Task 2" }]},
-  done: { name: "Done", items: [{ id: "3", content: "Task 3" }]},
+  todo: { name: "To Do", items: []},
+  inProgress: { name: "In Progress", items: []},
+  done: { name: "Done", items: []},
 };
 
 export default function KanbanBoard() {
@@ -40,11 +40,24 @@ export default function KanbanBoard() {
   });
   };
 
+  const addTask = (columnId) => {
+    const taskName = prompt("Enter task name:");
+
+    if (!taskName) return;
+
+    const newTask = { id: Date.now().toString(), content: taskName };
+
+    setColumns((prev) => ({
+      ...prev,
+      [columnId]: { ...prev[columnId], items: [...prev[columnId].items, newTask] },
+    }));
+  };
+
   return (
     <DndContext onDragEnd={onDragEnd}>
       <div className="flex space-x-4 p-4">
         {Object.entries(columns).map(([id, column]) => (
-          <Column key={id} columnId={id} column={column} />
+          <Column key={id} columnId={id} column={column} addTask={addTask} />
         ))}
       </div>
     </DndContext>

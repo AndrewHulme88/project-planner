@@ -1,7 +1,7 @@
 import { useDroppable } from "@dnd-kit/core";
 import Task from "./Task";
 
-export default function Column({ columnId, column }) {
+export default function Column({ columnId, column, addTask }) {
   const { setNodeRef } = useDroppable({ id: columnId });
 
   return (
@@ -10,6 +10,9 @@ export default function Column({ columnId, column }) {
       {column.items.map((task, index) => (
         <Task key={task.id} task={task} index={index} />
       ))}
+      <button className="mt-2 bg-blue-500 text-white p-1 rounded hover:bg-blue-600" onClick={() => addTask(columnId)}>
+        Add Task
+      </button>
     </div>
   );
 }
