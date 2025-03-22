@@ -118,6 +118,18 @@ function App() {
     });
   };
 
+  const deleteTask = (id) => {
+    axios.delete(`http://localhost:5000/api/tasks/${id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(() => {
+      setTasks(tasks.filter(task => task._id !== id));
+    })
+    .catch(() => {
+      setErrorMsg("Failed to delete task.");
+    });
+  };
+
   return (
     <div>
       <h1>Task Manager</h1>
@@ -141,6 +153,7 @@ function App() {
                      {task.text} {task.completed ? "✔️" : "❌"}
                     </span>
                     <button onClick={() => editTask(task._id)}>Edit</button>
+                    <button onClick={() => deleteTask(task._id)}>Delete</button>
                   </>
                 )}
               </li>
