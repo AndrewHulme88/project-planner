@@ -9,6 +9,8 @@ function App() {
   const [formUsername, setFormUsername] = useState("");
   const [formPassword, setFormPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [editingTaskId, setEditingTaskId] = useState(null);
+  const [editingText, setEditingText] = useState("");
 
   const handleRegister = async () => {
     if (!formUsername || !formPassword) {
@@ -86,6 +88,36 @@ function App() {
     });
   };
 
+  const editTask = (id) => {
+    const task = tasks.find(t => t._id === id);
+    setEditingTaskId(id);
+    setEditingText(task.text);
+  };
+
+  const updateTask = () => {
+    if (!editingText.trim()) {
+      setErrorMsg("Task cannot be empty.");
+      return;
+    }
+
+    axios.put(`http://localhost:5000/api/tasks/${editingTaskId}`, {
+      text: editingText,
+    }, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+    .then(res => {
+      setTasks(tasks.map(task => 
+        task._id === editingTaskId ? res.data : task
+      ));
+      setEditingTaskId(null);
+      setEditingText("");
+      setErrorMsg("");
+    })
+    .catch(() => {
+      setErrorMsg("Failed to update task.");
+    });
+  };
+
   return (
     <div>
       <h1>Task Manager</h1>
@@ -96,8 +128,21 @@ function App() {
           <button onClick={addTask} disabled={!taskText.trim()}>Add Task</button>
           <ul>
             {tasks.map(task => (
-              <li key={task._id} onClick={() => toggleTask(task._id)}>
-                {task.text} {task.completed ? "✔️" : "❌"}
+              <li key={task._id}>
+                {editingTaskId === task._id ? (
+                  <>
+                  <input value={editingText} onChange={(e) => setEditingText(e.target.value)}/>
+                  <button onClick={updateTask}>Save</button>
+                  <button onClick={() => setEditingTaskId(null)}>Cancel</button>
+                  </>
+                ) : (
+                  <>
+                    <span onClick={() => toggleTask(task._id)}>
+                     {task.text} {task.completed ? "✔️" : "❌"}
+                    </span>
+                    <button onClick={() => editTask(task._id)}>Edit</button>
+                  </>
+                )}
               </li>
             ))}
           </ul>
