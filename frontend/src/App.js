@@ -8,20 +8,31 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [formUsername, setFormUsername] = useState("");
   const [formPassword, setFormPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleRegister = async () => {
+    if (!formUsername || !formPassword) {
+      setErrorMsg("Username and password are required.");
+      return;
+    }
+
     try {
       await axios.post("http://localhost:5000/api/register", {
         username: formUsername,
         password: formPassword,
       });
-      alert("Registered! You can now log in.");
+      setErrorMsg("Registered! You can now log in.");
     } catch (err) {
-      alert("Registration failed.");
+      setErrorMsg("Registration failed.");
     }
   };
 
   const handleLogin = async () => {
+    if (!formUsername || !formPassword) {
+      setErrorMsg("Username and password are required.");
+      return;
+    }
+
     try {
       const res = await axios.post("http://localhost:5000/api/login", {
         username: formUsername,
@@ -29,9 +40,10 @@ function App() {
       });
       localStorage.setItem("token", res.data);
       setToken(res.data);
+      setErrorMsg("");
       window.location.reload();
     } catch (err) {
-      alert("Login failed.");
+      setErrorMsg("Login failed.");
     }
   };
 
@@ -62,6 +74,7 @@ function App() {
       <h1>Task Manager</h1>
       {token ? (
         <>
+          {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
           <input value={taskText} onChange={e => setTaskText(e.target.value)} placeholder='New task'/>
           <button onClick={addTask}>Add Task</button>
           <ul>
@@ -78,6 +91,7 @@ function App() {
         </>
       ) : (
         <>
+          {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
           <input
             type='text'
             placeholder='Username'
@@ -90,8 +104,8 @@ function App() {
             value={formPassword}
             onChange={(e) => setFormPassword(e.target.value)}
           />
-          <button onClick={handleRegister}>Sign Up</button>
-          <button onClick={handleLogin}>Login</button>
+          <button onClick={handleRegister} disabled={!formUsername || !formPassword}>Sign Up</button>
+          <button onClick={handleLogin} disabled={!formUsername || !formPassword}>Login</button>
         </>
       )}
     </div>
