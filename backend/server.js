@@ -9,10 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnfiedTopology: true,
-});
+mongoose.connect(process.env.MONGO_URI);
 
 const UserSchema = new mongoose.Schema({
     username: String,
@@ -28,7 +25,7 @@ const TaskSchema = new mongoose.Schema({
 const User = mongoose.model("User", UserSchema);
 const Task = mongoose.model("Task", TaskSchema);
 
-app.post("/api/register", async (req, res) => {
+app.get("/api/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({ username: req.body.username, password: hashedPassword });
     await user.save();
@@ -55,7 +52,7 @@ app.post("/api/tasks", async (req, res) => {
 
 app.post("/api/tasks", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
-    if (!token) return res.status(401).json({ message: "Unautorized" });
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
 
     const { userId } = jwt.verify(token, process.env.JWT_SECRET);
     const task = new Task({ userId, text: req.body.text, completed: false });
@@ -71,4 +68,4 @@ app.put("/api/tasks/:id", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log("Server running on port ${PORT}"));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
