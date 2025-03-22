@@ -82,7 +82,15 @@ app.delete("/api/tasks/:id", async (req, res) => {
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
     const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-})
+    const task = await Task.findById(req.params.id);
+
+    if (task.userId !== userId) {
+        return res.status(403).json({ message: "Forbidden"});
+    }
+
+    await task.deleteOne();
+    res.json({ message: "Task deleted."});
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
