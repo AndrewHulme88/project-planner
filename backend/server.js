@@ -72,10 +72,17 @@ app.put("/api/tasks/:id", async (req, res) => {
     } else {
         task.completed = !task.completed;
     }
-    
+
     await task.save();
     res.json(task);
 });
+
+app.delete("/api/tasks/:id", async (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+    const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+})
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
