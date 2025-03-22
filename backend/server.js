@@ -25,7 +25,11 @@ const TaskSchema = new mongoose.Schema({
 const User = mongoose.model("User", UserSchema);
 const Task = mongoose.model("Task", TaskSchema);
 
-app.get("/api/register", async (req, res) => {
+app.get("/", (req, res) => {
+    res.send("Backend is working");
+});
+
+app.post("/api/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({ username: req.body.username, password: hashedPassword });
     await user.save();
@@ -41,7 +45,7 @@ app.post("/api/login", async (req, res) => {
     res.json(token);
 });
 
-app.post("/api/tasks", async (req, res) => {
+app.get("/api/tasks", async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
