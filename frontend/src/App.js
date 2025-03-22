@@ -56,9 +56,26 @@ function App() {
   }, [token]);
 
   const addTask = () => {
+    if (!taskText.trim()) {
+      setErrorMsg("Task cannot be empty.");
+      return;
+    }
+
+    if (taskText.trim().length > 100) {
+      setErrorMsg("Task must be no more than 100 characters.");
+      return;
+    }
+
     axios.post("http://localhost:5000/api/tasks", { text: taskText }, {
       headers: { Authorization: `Bearer ${token}` }
-    }).then(res => setTasks([...tasks, res.data]));
+    }).then(res => {
+      setTasks([...tasks, res.data]);
+      setTaskText("");
+      setErrorMsg("");
+    })
+    .catch(() => {
+      setErrorMsg("Failed to add task.");
+    });
   };
 
   const toggleTask = (id) => {
@@ -76,7 +93,7 @@ function App() {
         <>
           {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
           <input value={taskText} onChange={e => setTaskText(e.target.value)} placeholder='New task'/>
-          <button onClick={addTask}>Add Task</button>
+          <button onClick={addTask} disabled={!taskText.trim()}>Add Task</button>
           <ul>
             {tasks.map(task => (
               <li key={task._id} onClick={() => toggleTask(task._id)}>
