@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-//import './App.css';
+import './App.css';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -34,7 +34,7 @@ function App() {
       <h1>Task Manager</h1>
       {token ? (
         <>
-          <input value={taskText} onChange={e => setTaskText(e.target.value)} />
+          <input value={taskText} onChange={e => setTaskText(e.target.value)} placeholder='New task'/>
           <button onClick={addTask}>Add Task</button>
           <ul>
             {tasks.map(task => (
@@ -43,9 +43,28 @@ function App() {
               </li>
             ))}
           </ul>
+          <button onClick={() => {
+            localStorage.removeItem("token");
+            window.location.reload();
+          }}>Logout</button>
         </>
       ) : (
-        <p>Login</p>
+        <>
+          <input
+            type='text'
+            placeholder='Username'
+            value={formUsername}
+            onChange={(e) => setFormUsername(e.target.value)}
+          />
+          <input
+            type='password'
+            placeholder='Password'
+            value={formPassword}
+            onChange={(e) => setFormPassword(e.target.value)}
+          />
+          <button onClick={handleRegister}>Sign Up</button>
+          <button onClick={handleLogin}>Login</button>
+        </>
       )}
     </div>
   );
