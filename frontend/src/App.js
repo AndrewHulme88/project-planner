@@ -6,6 +6,34 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [taskText, setTaskText] = useState("");
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [formUsername, setFormUsername] = useState("");
+  const [formPassword, setFormPassword] = useState("");
+
+  const handleRegister = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/register", {
+        username: formUsername,
+        password: formPassword,
+      });
+      alert("Registered! You can now log in.");
+    } catch (err) {
+      alert("Registration failed.");
+    }
+  };
+
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/login", {
+        username: formUsername,
+        password: formPassword,
+      });
+      localStorage.setItem("token", res.data);
+      setToken(res.data);
+      window.location.reload();
+    } catch (err) {
+      alert("Login failed.");
+    }
+  };
 
   useEffect(() => {
     if (token) {
