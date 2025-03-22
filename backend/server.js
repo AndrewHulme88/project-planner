@@ -66,7 +66,13 @@ app.post("/api/tasks", async (req, res) => {
 
 app.put("/api/tasks/:id", async (req, res) => {
     const task = await Task.findById(req.params.id);
-    task.completed = !task.completed;
+
+    if (req.body.text !== undefined) {
+        task.text = req.body.text;
+    } else {
+        task.completed = !task.completed;
+    }
+    
     await task.save();
     res.json(task);
 });
