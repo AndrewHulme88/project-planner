@@ -3,7 +3,6 @@ import axios from 'axios';
 import './App.css';
 import AuthForm from './components/AuthForm';
 import TaskInput from './components/TaskInput';
-import TaskItem from './components/TaskItem';
 import TaskList from './components/TaskList';
 import FilterBar from './components/FilterBar';
 
