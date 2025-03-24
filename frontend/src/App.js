@@ -12,7 +12,9 @@ function App() {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editingText, setEditingText] = useState("");
   const [filter, setFilter] = useState("all");
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("darkMode") === "true";
+  });
 
   const handleRegister = async () => {
     if (!formUsername || !formPassword) {
@@ -61,6 +63,7 @@ function App() {
 
   useEffect(() => {
     document.body.className = darkMode ? "dark" : "";
+    localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
   const addTask = () => {
@@ -138,10 +141,12 @@ function App() {
 
   return (
     <div className='container'>
-      <h1>Task Manager</h1>
-      <button onClick={() => setDarkMode(!darkMode)}>
-        {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-      </button>
+      <h1>Project Manager</h1>
+      <div>
+        <button onClick={() => setDarkMode(!darkMode)}>
+          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+        </button>
+      </div>
       {token ? (
         <>
           {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
