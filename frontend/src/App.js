@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import AuthForm from './components/AuthForm';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -192,23 +193,15 @@ function App() {
           }}>Logout</button>
         </>
       ) : (
-        <>
-          {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-          <input
-            type='text'
-            placeholder='Username'
-            value={formUsername}
-            onChange={(e) => setFormUsername(e.target.value)}
-          />
-          <input
-            type='password'
-            placeholder='Password'
-            value={formPassword}
-            onChange={(e) => setFormPassword(e.target.value)}
-          />
-          <button onClick={handleRegister} disabled={!formUsername || !formPassword}>Sign Up</button>
-          <button onClick={handleLogin} disabled={!formUsername || !formPassword}>Login</button>
-        </>
+        <AuthForm
+          formUsername={formUsername}
+          setFormUsername={setFormUsername}
+          formPassword={formPassword}
+          setFormPassword={setFormPassword}
+          handleRegister={handleRegister}
+          handleLogin={handleLogin}
+          errorMsg={errorMsg}
+        />
       )}
     </div>
   );
