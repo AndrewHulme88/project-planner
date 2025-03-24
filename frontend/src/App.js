@@ -132,7 +132,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className='container'>
       <h1>Task Manager</h1>
       {token ? (
         <>
@@ -152,7 +152,7 @@ function App() {
                 return true;
               })
             .map(task => (
-              <li key={task._id}>
+              <li key={task._id} className='task'>
                 {editingTaskId === task._id ? (
                   <>
                   <input value={editingText} onChange={(e) => setEditingText(e.target.value)}/>
@@ -164,8 +164,10 @@ function App() {
                     <span onClick={() => toggleTask(task._id)}>
                      {task.text} {task.completed ? "✔️" : "❌"}
                     </span>
-                    <button onClick={() => editTask(task._id)}>Edit</button>
-                    <button onClick={() => deleteTask(task._id)}>Delete</button>
+                    <div className='task-actions'>
+                      <button onClick={() => editTask(task._id)}>Edit</button>
+                      <button onClick={() => deleteTask(task._id)}>Delete</button>
+                    </div>
                   </>
                 )}
               </li>
