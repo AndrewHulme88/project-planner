@@ -11,6 +11,7 @@ function App() {
   const [errorMsg, setErrorMsg] = useState("");
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editingText, setEditingText] = useState("");
+  const [filter, setFilter] = useState("all");
 
   const handleRegister = async () => {
     if (!formUsername || !formPassword) {
@@ -138,8 +139,19 @@ function App() {
           {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
           <input value={taskText} onChange={e => setTaskText(e.target.value)} placeholder='New task'/>
           <button onClick={addTask} disabled={!taskText.trim()}>Add Task</button>
+          <div>
+            <button onClick={() => setFilter("all")}>All</button>
+            <button onClick={() => setFilter("completed")}>Completed</button>
+            <button onClick={() => setFilter("incomplete")}>Incomplete</button>
+          </div>
           <ul>
-            {tasks.map(task => (
+            {tasks
+              .filter(task => {
+                if (filter === "completed") return task.completed;
+                if (filter === "incomplete") return !task.completed;
+                return true;
+              })
+            .map(task => (
               <li key={task._id}>
                 {editingTaskId === task._id ? (
                   <>
