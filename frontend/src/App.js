@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import AuthForm from './components/AuthForm';
+import TaskInput from './components/TaskInput';
+import TaskItem from './components/TaskItem';
+import TaskList from './components/TaskList';
+import FilterBar from './components/FilterBar';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -150,43 +154,21 @@ function App() {
       </div>
       {token ? (
         <>
-          {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
-          <input value={taskText} onChange={e => setTaskText(e.target.value)} placeholder='New task'/>
-          <button onClick={addTask} disabled={!taskText.trim()}>Add Task</button>
-          <div>
-            <button onClick={() => setFilter("all")}>All</button>
-            <button onClick={() => setFilter("completed")}>Completed</button>
-            <button onClick={() => setFilter("incomplete")}>Incomplete</button>
-          </div>
-          <ul>
-            {tasks
-              .filter(task => {
-                if (filter === "completed") return task.completed;
-                if (filter === "incomplete") return !task.completed;
-                return true;
-              })
-            .map(task => (
-              <li key={task._id} className='task'>
-                {editingTaskId === task._id ? (
-                  <>
-                  <input value={editingText} onChange={(e) => setEditingText(e.target.value)}/>
-                  <button onClick={updateTask}>Save</button>
-                  <button onClick={() => setEditingTaskId(null)}>Cancel</button>
-                  </>
-                ) : (
-                  <>
-                    <span onClick={() => toggleTask(task._id)}>
-                     {task.text} {task.completed ? "✔️" : "❌"}
-                    </span>
-                    <div className='task-actions'>
-                      <button onClick={() => editTask(task._id)}>Edit</button>
-                      <button onClick={() => deleteTask(task._id)}>Delete</button>
-                    </div>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
+          <TaskInput taskText={taskText} setTaskText={setTaskText} addTask={addTask} />
+          <FilterBar filter={filter} setFilter={setFilter} />
+          {errorMsg && <p style={{ color: "red"}}>{errorMsg}</p>}
+          <TaskList
+            tasks={tasks}
+            filter={filter}
+            editingTaskId={editingTaskId}
+            editingText={editingText}
+            setEditingText={setEditingText}
+            setEditingTaskId={setEditingTaskId}
+            toggleTask={toggleTask}
+            updateTask={updateTask}
+            deleteTask={deleteTask}
+            editTask={editTask}
+          />
           <button onClick={() => {
             localStorage.removeItem("token");
             window.location.reload();
