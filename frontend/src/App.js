@@ -12,6 +12,7 @@ function App() {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editingText, setEditingText] = useState("");
   const [filter, setFilter] = useState("all");
+  const [darkMode, setDarkMode] = useState(false);
 
   const handleRegister = async () => {
     if (!formUsername || !formPassword) {
@@ -57,6 +58,10 @@ function App() {
       }).then(res => setTasks(res.data));
     }
   }, [token]);
+
+  useEffect(() => {
+    document.body.className = darkMode ? "dark" : "";
+  }, [darkMode]);
 
   const addTask = () => {
     if (!taskText.trim()) {
@@ -134,6 +139,9 @@ function App() {
   return (
     <div className='container'>
       <h1>Task Manager</h1>
+      <button onClick={() => setDarkMode(!darkMode)}>
+        {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+      </button>
       {token ? (
         <>
           {errorMsg && <p style={{ color: "red" }}>{errorMsg}</p>}
