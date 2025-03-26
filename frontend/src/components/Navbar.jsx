@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Navbar = ({ token, setToken, darkMode, setDarkMode }) => {
     const navigate = useNavigate();
 
-    const handleLoout = () => {
+    const handleLogout = () => {
         localStorage.removeItem("token");
         setToken(null);
         navigate("/login");
