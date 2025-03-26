@@ -7,6 +7,7 @@ import TaskInput from './components/TaskInput';
 import TaskList from './components/TaskList';
 import FilterBar from './components/FilterBar';
 import LandingPage from './components/LandingPage';
+import Navbar from './components/Navbar';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -147,6 +148,12 @@ function App() {
 
   return (
     <Router>
+      <Navbar 
+        token={token}
+        setToken={setToken}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
       <div className='container'>
         <h1>Project Manager</h1>
         <div>
