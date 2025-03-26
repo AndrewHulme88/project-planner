@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate, } from "react-router-dom";
 import AuthForm from './components/AuthForm';
 import TaskInput from './components/TaskInput';
 import TaskList from './components/TaskList';
 import FilterBar from './components/FilterBar';
+import LandingPage from './components/LandingPage';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -144,47 +146,65 @@ function App() {
   };
 
   return (
-    <div className='container'>
-      <h1>Project Manager</h1>
-      <div>
-        <button onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-        </button>
-      </div>
-      {token ? (
-        <>
-          <TaskInput taskText={taskText} setTaskText={setTaskText} addTask={addTask} />
-          <FilterBar filter={filter} setFilter={setFilter} />
-          {errorMsg && <p style={{ color: "red"}}>{errorMsg}</p>}
-          <TaskList
-            tasks={tasks}
-            filter={filter}
-            editingTaskId={editingTaskId}
-            editingText={editingText}
-            setEditingText={setEditingText}
-            setEditingTaskId={setEditingTaskId}
-            toggleTask={toggleTask}
-            updateTask={updateTask}
-            deleteTask={deleteTask}
-            editTask={editTask}
-          />
-          <button onClick={() => {
-            localStorage.removeItem("token");
-            window.location.reload();
-          }}>Logout</button>
-        </>
-      ) : (
-        <AuthForm
-          formUsername={formUsername}
-          setFormUsername={setFormUsername}
-          formPassword={formPassword}
-          setFormPassword={setFormPassword}
-          handleRegister={handleRegister}
-          handleLogin={handleLogin}
-          errorMsg={errorMsg}
+    <Router>
+      <div className='container'>
+        <h1>Project Manager</h1>
+        <div>
+          <button onClick={() => setDarkMode(!darkMode)}>
+            {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
+          </button>
+        </div>
+
+        <Routes>
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/login' element={
+            token ? (
+              <Navigate to="/tasks" />
+            ) : (
+              <AuthForm
+                formUsername={formUsername}
+                setFormUsername={setFormUsername}
+                formPassword={formPassword}
+                setFormPassword={setFormPassword}
+                handleRegister={handleRegister}
+                handleLogin={handleLogin}
+                errorMsg={errorMsg}
+              />
+            )
+          }
         />
-      )}
-    </div>
+        <Route path='/tasks' element={
+          token ? (
+            <>
+              <TaskInput taskText={taskText} setTaskText={setTaskText} addTask={addTask} />
+              <FilterBar filter={filter} setFilter={setFilter} />
+              {errorMsg && <p style={{ color: "red"}}>{errorMsg}</p>}
+              <TaskList
+                tasks={tasks}
+                filter={filter}
+                editingTaskId={editingTaskId}
+                editingText={editingText}
+                setEditingText={setEditingText}
+                setEditingTaskId={setEditingTaskId}
+                toggleTask={toggleTask}
+                updateTask={updateTask}
+                deleteTask={deleteTask}
+                editTask={editTask}
+              />
+              <button onClick={() => {
+                localStorage.removeItem("token");
+                window.location.reload();
+              }}>Logout</button>
+            </>
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+    />
+    <Route path='*' element={<Navigate to="/" />} />
+    </Routes>
+      </div>
+    </Router>
   );
 }
 
