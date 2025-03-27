@@ -20,6 +20,7 @@ function App() {
   const [editingText, setEditingText] = useState("");
   const [filter, setFilter] = useState("all");
   const [dueDate, setDueDate] = useState("");
+  const [sortByDueDate, setSortByDueDate] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
@@ -187,7 +188,12 @@ function App() {
                 dueDate={dueDate}
                 setDueDate={setDueDate} 
               />
-              <FilterBar filter={filter} setFilter={setFilter} />
+              <FilterBar 
+                filter={filter} 
+                setFilter={setFilter} 
+                sortByDueDate={sortByDueDate}
+                setSortByDueDate={setSortByDueDate}  
+              />
               {errorMsg && <p style={{ color: "red"}}>{errorMsg}</p>}
               <TaskList
                 tasks={tasks}
