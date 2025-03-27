@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import "src/styles/navbar.css";
+import "../styles/Navbar.css";
 
 const Navbar = ({ token, setToken, darkMode, setDarkMode }) => {
     const navigate = useNavigate();

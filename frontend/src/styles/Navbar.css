@@ -3,8 +3,8 @@
     justify-content: "space-between";
     align-items: "center";
     padding: "10px 20px";
-    background-color: var(--navbar-bg);
-    color: var(--navbar-text);
+    background-color: #eee;
+    color: #000;
     border-bottom: "1px solid #ccc";
 }
 
@@ -22,11 +22,15 @@
 }
 
 body.dark .navbar {
-    --navbar-bg: #333;
-    --navbar-text: #fff;
+    background-color: #333;
+    color: #fff;
 }
 
-body:not(.dark) .navbar {
-    --navbar-bg: #eee;
-    --navbar-text: #000;
+body.dark .navbar-buttons button {
+    background-color: #444;
+    color: #fff;
+}
+
+body.dark .navbar-buttons button:hover {
+    background-color: #555;
 }
