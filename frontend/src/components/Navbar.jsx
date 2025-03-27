@@ -17,6 +17,9 @@ const Navbar = ({ token, setToken, darkMode, setDarkMode }) => {
                 <button onClick={() => setDarkMode(!darkMode)}>
                     {darkMode ? "☀️ Light" : "🌙 Dark"}
                 </button>
+                <Link to="/">
+                    <button>Home</button>
+                </Link>
                 {token ? (
                     <>
                         <Link to="/tasks"><button>Tasks</button></Link>
