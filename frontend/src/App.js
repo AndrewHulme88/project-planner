@@ -156,11 +156,6 @@ function App() {
       />
       <div className='container'>
         <h1>Project Manager</h1>
-        <div>
-          <button onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
-          </button>
-        </div>
 
         <Routes>
           <Route path='/' element={<LandingPage />} />
