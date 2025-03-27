@@ -19,7 +19,8 @@ const UserSchema = new mongoose.Schema({
 const TaskSchema = new mongoose.Schema({
     userId: String,
     text: String,
-    completed: Boolean
+    completed: Boolean,
+    dueDate: Date,
 });
 
 const User = mongoose.model("User", UserSchema);
@@ -59,7 +60,12 @@ app.post("/api/tasks", async (req, res) => {
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
     const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-    const task = new Task({ userId, text: req.body.text, completed: false });
+    const task = new Task({ 
+        userId, 
+        text: req.body.text, 
+        completed: false, 
+        dueDate: req.body.dueDate || null, 
+    });
     await task.save();
     res.json(task);
 });
