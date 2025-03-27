@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
+import "src/styles/navbar.css";
 
 const Navbar = ({ token, setToken, darkMode, setDarkMode }) => {
     const navigate = useNavigate();
@@ -10,17 +11,9 @@ const Navbar = ({ token, setToken, darkMode, setDarkMode }) => {
     };
 
     return (
-        <nav style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            padding: "10px 20px",
-            backgroundColor: darkMode ? "#333" : "#eee",
-            color: darkMode ? "#fff" : "#000",
-            borderBottom: "1px solid #ccc"
-        }}>
-            <h2 style={{ margin: 0 }}>Project Manager</h2>
-            <div>
+        <nav className="navbar">
+            <h2>Project Manager</h2>
+            <div className="navbar-buttons">
                 <button onClick={() => setDarkMode(!darkMode)}>
                     {darkMode ? "☀️ Light" : "🌙 Dark"}
                 </button>
