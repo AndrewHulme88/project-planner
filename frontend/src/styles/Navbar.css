@@ -34,3 +34,13 @@ body.dark .navbar-buttons button {
 body.dark .navbar-buttons button:hover {
     background-color: #555;
 }
+
+.nav-link .nav-btn {
+    background-color: transparent;
+    color: inherit;
+}
+
+.nav-link.active .nav-btn {
+    background-color: #4caf50;
+    color: white;
+}

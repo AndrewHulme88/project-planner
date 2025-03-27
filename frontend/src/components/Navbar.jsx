@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 
 const Navbar = ({ token, setToken, darkMode, setDarkMode }) => {
@@ -17,16 +17,20 @@ const Navbar = ({ token, setToken, darkMode, setDarkMode }) => {
                 <button onClick={() => setDarkMode(!darkMode)}>
                     {darkMode ? "☀️ Light" : "🌙 Dark"}
                 </button>
-                <Link to="/">
-                    <button>Home</button>
-                </Link>
+                <NavLink to="/" className="nav-link">
+                    <button className="nav-btn">Home</button>
+                </NavLink>
                 {token ? (
                     <>
-                        <Link to="/tasks"><button>Tasks</button></Link>
+                        <NavLink to="/tasks" className="nav-link">
+                            <button className="nav-btn">Tasks</button>
+                        </NavLink>
                         <button onClick={handleLogout}>Logout</button>
                     </>
                 ) : (
-                    <Link to="/login"><button>Login</button></Link>
+                    <NavLink to="/login" className="nav-link">
+                        <button className="nav-btn">Login</button>
+                    </NavLink>
                 )}
             </div>
         </nav>
