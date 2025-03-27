@@ -198,6 +198,7 @@ function App() {
               <TaskList
                 tasks={tasks}
                 filter={filter}
+                sortByDueDate={sortByDueDate}
                 editingTaskId={editingTaskId}
                 editingText={editingText}
                 setEditingText={setEditingText}

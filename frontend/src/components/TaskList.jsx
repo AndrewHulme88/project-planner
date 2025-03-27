@@ -3,6 +3,7 @@ import TaskItem from "./TaskItem";
 const TaskList = ({
     tasks,
     filter,
+    sortByDueDate,
     editingTaskId,
     editingText,
     setEditingText,
@@ -19,12 +20,23 @@ const TaskList = ({
     });
 
     if (sortByDueDate) {
-        filteredTasks = filteredTasks.sort((a, b) => {
-            if (!a.dueDate) return 1;
-            if (!b.dueDate) return -1;
-            return new Date(a.dueDate) - new Date(b.dueDate);
+        console.log("Sorting by due date...");
+      
+        filteredTasks = [...filteredTasks].sort((a, b) => {
+          const aHasDate = Boolean(a.dueDate);
+          const bHasDate = Boolean(b.dueDate);
+      
+          if (!aHasDate && !bHasDate) return 0;
+          if (!aHasDate) return 1;
+          if (!bHasDate) return -1;
+      
+          const aTime = new Date(a.dueDate).getTime();
+          const bTime = new Date(b.dueDate).getTime();
+      
+          return aTime - bTime;
         });
-    }
+      }
+      console.log("Sorted tasks:", filteredTasks.map(t => ({ text: t.text, dueDate: t.dueDate })));
 
     return (
         <ul>
