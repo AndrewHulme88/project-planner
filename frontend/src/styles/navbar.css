@@ -1,0 +1,32 @@
+.navbar {
+    display: "flex";
+    justify-content: "space-between";
+    align-items: "center";
+    padding: "10px 20px";
+    background-color: var(--navbar-bg);
+    color: var(--navbar-text);
+    border-bottom: "1px solid #ccc";
+}
+
+.navbar h2 {
+    margin: 0;
+}
+
+.navbar-buttons button,
+.navbar-buttons a button {
+    margin-left: 10px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+body.dark .navbar {
+    --navbar-bg: #333;
+    --navbar-text: #fff;
+}
+
+body:not(.dark) .navbar {
+    --navbar-bg: #eee;
+    --navbar-text: #000;
+}
