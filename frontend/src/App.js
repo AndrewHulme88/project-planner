@@ -19,6 +19,7 @@ function App() {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editingText, setEditingText] = useState("");
   const [filter, setFilter] = useState("all");
+  const [dueDate, setDueDate] = useState("");
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
@@ -84,11 +85,12 @@ function App() {
       return;
     }
 
-    axios.post("http://localhost:5000/api/tasks", { text: taskText }, {
+    axios.post("http://localhost:5000/api/tasks", { text: taskText, dueDate }, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
       setTasks([...tasks, res.data]);
       setTaskText("");
+      setDueDate("");
       setErrorMsg("");
     })
     .catch(() => {
@@ -178,7 +180,13 @@ function App() {
         <Route path='/tasks' element={
           token ? (
             <>
-              <TaskInput taskText={taskText} setTaskText={setTaskText} addTask={addTask} />
+              <TaskInput 
+                taskText={taskText} 
+                setTaskText={setTaskText} 
+                addTask={addTask}
+                dueDate={dueDate}
+                setDueDate={setDueDate} 
+              />
               <FilterBar filter={filter} setFilter={setFilter} />
               {errorMsg && <p style={{ color: "red"}}>{errorMsg}</p>}
               <TaskList

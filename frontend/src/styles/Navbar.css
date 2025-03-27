@@ -41,6 +41,6 @@ body.dark .navbar-buttons button:hover {
 }
 
 .nav-link.active .nav-btn {
-    background-color: #4caf50;
+    background-color: #4c74af;
     color: white;
 }

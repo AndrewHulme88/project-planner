@@ -10,6 +10,11 @@ const TaskItem = ({
     editTask,
 }) => {
     const isEditing = editingTaskId === task._id;
+    const isOverdue = (dateStr) => {
+      const today = new Date();
+      const due = new Date(dateStr);
+      return due < today && !task.completed;
+    };
 
     return (
         <li className='task'>
@@ -23,6 +28,11 @@ const TaskItem = ({
           <>
             <span onClick={() => toggleTask(task._id)}>
              {task.text} {task.completed ? "✔️" : "❌"}
+             {task.dueDate && (
+              <small style={{ marginLeft: "10px", color: isOverdue(task.dueDate) ? "red" : "gray" }}>
+                (Due: {new Date(task.dueDate).toLocaleDateString()})
+              </small>
+             )}
             </span>
             <div className='task-actions'>
               <button onClick={() => editTask(task._id)}>Edit</button>
