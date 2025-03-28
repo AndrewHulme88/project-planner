@@ -16,6 +16,15 @@ const TaskItem = ({
       return due < today && !task.completed;
     };
 
+    const getPriorityColor = (level) => {
+      switch (level) {
+        case "high": return "red";
+        case "medium": return "orange";
+        case "low": return "green";
+        default: return "gray";
+      }
+    };
+
     return (
         <li className='task'>
         {isEditing ? (
@@ -33,6 +42,9 @@ const TaskItem = ({
                 (Due: {new Date(task.dueDate).toLocaleDateString()})
               </small>
              )}
+             <small style={{ marginLeft: "10px", color: getPriorityColor(task.priority)}}>
+              [{task.priority}]
+             </small>
             </span>
             <div className='task-actions'>
               <button onClick={() => editTask(task._id)}>Edit</button>
