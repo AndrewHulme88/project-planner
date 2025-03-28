@@ -22,6 +22,8 @@ function App() {
   const [dueDate, setDueDate] = useState("");
   const [sortByDueDate, setSortByDueDate] = useState(false);
   const [priority, setPriority] = useState("medium");
+  const [priorityFilter, setPriorityFilter] = useState("all");
+  const [sortByPriority, setSortByPriority] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
@@ -197,6 +199,10 @@ function App() {
                 setFilter={setFilter} 
                 sortByDueDate={sortByDueDate}
                 setSortByDueDate={setSortByDueDate}  
+                priorityFilter={priorityFilter}
+                setPriorityFilter={setPriorityFilter}
+                sortByPriority={sortByPriority}
+                setSortByPriority={setSortByPriority}
               />
               {errorMsg && <p style={{ color: "red"}}>{errorMsg}</p>}
               <TaskList
