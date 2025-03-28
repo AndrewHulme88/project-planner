@@ -21,6 +21,7 @@ function App() {
   const [filter, setFilter] = useState("all");
   const [dueDate, setDueDate] = useState("");
   const [sortByDueDate, setSortByDueDate] = useState(false);
+  const [priority, setPriority] = useState("medium");
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
@@ -86,12 +87,13 @@ function App() {
       return;
     }
 
-    axios.post("http://localhost:5000/api/tasks", { text: taskText, dueDate }, {
+    axios.post("http://localhost:5000/api/tasks", { text: taskText, dueDate, priority }, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
       setTasks([...tasks, res.data]);
       setTaskText("");
       setDueDate("");
+      setPriority("medium");
       setErrorMsg("");
     })
     .catch(() => {
@@ -187,6 +189,8 @@ function App() {
                 addTask={addTask}
                 dueDate={dueDate}
                 setDueDate={setDueDate} 
+                priority={priority}
+                setPriority={setPriority}
               />
               <FilterBar 
                 filter={filter} 
