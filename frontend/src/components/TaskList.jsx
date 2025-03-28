@@ -16,12 +16,20 @@ const TaskList = ({
     editTask,
 }) => {
     let filteredTasks = tasks.filter(task => {
-        if (filter === "completed") return task.completed;
-        if (filter === "incomplete") return !task.completed;
-        if (priorityFilter !== "all" && task.priority !== priorityFilter) return false;
-        return true;
-    });
-
+        const taskPriority = task.priority || "medium";
+        const isCompleted = task.completed;
+      
+        const filterMatch =
+          (filter === "all") ||
+          (filter === "completed" && isCompleted) ||
+          (filter === "incomplete" && !isCompleted);
+      
+        const priorityMatch =
+          priorityFilter === "all" || taskPriority === priorityFilter;
+      
+        return filterMatch && priorityMatch;
+    });      
+  
     if (sortByDueDate) {
         filteredTasks = [...filteredTasks].sort((a, b) => {
             const aHasDate = Boolean(a.dueDate);
@@ -46,6 +54,8 @@ const TaskList = ({
             return bRank - aRank;
         });
     }
+    console.log("Filtered tasks:", filteredTasks.map(t => ({ text: t.text, priority: t.priority })));
+
 
     return (
         <ul>

@@ -209,6 +209,8 @@ function App() {
                 tasks={tasks}
                 filter={filter}
                 sortByDueDate={sortByDueDate}
+                priorityFilter={priorityFilter}
+                sortByPriority={sortByPriority}
                 editingTaskId={editingTaskId}
                 editingText={editingText}
                 setEditingText={setEditingText}
