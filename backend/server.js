@@ -21,6 +21,11 @@ const TaskSchema = new mongoose.Schema({
     text: String,
     completed: Boolean,
     dueDate: Date,
+    priority: {
+        type: String,
+        enum: ["low", "medium", "high"],
+        default: "medium",
+    }
 });
 
 const User = mongoose.model("User", UserSchema);
@@ -65,6 +70,7 @@ app.post("/api/tasks", async (req, res) => {
         text: req.body.text, 
         completed: false, 
         dueDate: req.body.dueDate || null, 
+        priority: req.body.priority || "medium"
     });
     await task.save();
     res.json(task);
