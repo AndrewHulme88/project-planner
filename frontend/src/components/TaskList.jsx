@@ -4,6 +4,8 @@ const TaskList = ({
     tasks,
     filter,
     sortByDueDate,
+    priorityFilter,
+    sortByPriority,
     editingTaskId,
     editingText,
     setEditingText,
@@ -16,27 +18,34 @@ const TaskList = ({
     let filteredTasks = tasks.filter(task => {
         if (filter === "completed") return task.completed;
         if (filter === "incomplete") return !task.completed;
+        if (priorityFilter !== "all" && task.priority !== priorityFilter) return false;
         return true;
     });
 
     if (sortByDueDate) {
-        console.log("Sorting by due date...");
-      
         filteredTasks = [...filteredTasks].sort((a, b) => {
-          const aHasDate = Boolean(a.dueDate);
-          const bHasDate = Boolean(b.dueDate);
-      
-          if (!aHasDate && !bHasDate) return 0;
-          if (!aHasDate) return 1;
-          if (!bHasDate) return -1;
-      
-          const aTime = new Date(a.dueDate).getTime();
-          const bTime = new Date(b.dueDate).getTime();
-      
-          return aTime - bTime;
+            const aHasDate = Boolean(a.dueDate);
+            const bHasDate = Boolean(b.dueDate);
+        
+            if (!aHasDate && !bHasDate) return 0;
+            if (!aHasDate) return 1;
+            if (!bHasDate) return -1;
+        
+            const aTime = new Date(a.dueDate).getTime();
+            const bTime = new Date(b.dueDate).getTime();
+        
+            return aTime - bTime;
         });
-      }
-      console.log("Sorted tasks:", filteredTasks.map(t => ({ text: t.text, dueDate: t.dueDate })));
+    }
+
+    if (sortByPriority) {
+        const priorityRank = { high: 3, medium: 2, low: 1 };
+        filteredTasks = [...filteredTasks].sort((a, b) => {
+            const aRank = priorityRank[a.priority] || 0;
+            const bRank = priorityRank[b.priority] || 0;
+            return bRank - aRank;
+        });
+    }
 
     return (
         <ul>
