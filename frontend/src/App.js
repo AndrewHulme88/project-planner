@@ -24,6 +24,8 @@ function App() {
   const [priority, setPriority] = useState("medium");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [sortByPriority, setSortByPriority] = useState(false);
+  const [editingDueDate, setEditingDueDate] = useState("");
+  const [editingPriority, setEditingPriority] = useState("medium");
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("darkMode") === "true";
   });
@@ -115,6 +117,8 @@ function App() {
     const task = tasks.find(t => t._id === id);
     setEditingTaskId(id);
     setEditingText(task.text);
+    setEditingDueDate(task.dueDate?.split("T")[0] || "");
+    setEditingPriority(task.priority || "medium");
   };
 
   const updateTask = () => {
@@ -125,6 +129,8 @@ function App() {
 
     axios.put(`http://localhost:5000/api/tasks/${editingTaskId}`, {
       text: editingText,
+      dueDate: editingDueDate,
+      priority: editingPriority,
     }, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -134,6 +140,8 @@ function App() {
       ));
       setEditingTaskId(null);
       setEditingText("");
+      setEditingDueDate("");
+      setEditingPriority("medium");
       setErrorMsg("");
     })
     .catch(() => {
