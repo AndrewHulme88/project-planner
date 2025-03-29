@@ -79,11 +79,10 @@ app.post("/api/tasks", async (req, res) => {
 app.put("/api/tasks/:id", async (req, res) => {
     const task = await Task.findById(req.params.id);
 
-    if (req.body.text !== undefined) {
-        task.text = req.body.text;
-    } else {
-        task.completed = !task.completed;
-    }
+    if (req.body.text !== undefined) task.text = req.body.text;
+    if (req.body.completed !== undefined) task.completed = req.body.completed;
+    if (req.body.dueDate !== undefined) task.dueDate = req.body.dueDate;
+    if (req.body.priority !== undefined) task.priority = req.body.priority;
 
     await task.save();
     res.json(task);
