@@ -106,10 +106,15 @@ function App() {
   };
 
   const toggleTask = (id) => {
-    axios.put(`http://localhost:5000/api/tasks/${id}`, {}, {
+    const task = tasks.find(t => t._id === id);
+    const updatedCompleted = !task.completed;
+
+    axios.put(`http://localhost:5000/api/tasks/${id}`, {
+      completed: updatedCompleted,
+    }, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
-      setTasks(tasks.map(task => task._id === id ? res.data : task));
+      setTasks(tasks.map(t => t._id === id ? res.data : t));
     });
   };
 
@@ -221,8 +226,12 @@ function App() {
                 sortByPriority={sortByPriority}
                 editingTaskId={editingTaskId}
                 editingText={editingText}
+                editingDueDate={editingDueDate}
+                editingPriority={editingPriority}
                 setEditingText={setEditingText}
                 setEditingTaskId={setEditingTaskId}
+                setEditingDueDate={setEditingDueDate}
+                setEditingPriority={setEditingPriority}
                 toggleTask={toggleTask}
                 updateTask={updateTask}
                 deleteTask={deleteTask}

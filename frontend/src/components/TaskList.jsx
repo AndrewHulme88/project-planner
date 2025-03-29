@@ -10,6 +10,10 @@ const TaskList = ({
     editingText,
     setEditingText,
     setEditingTaskId,
+    editingDueDate,
+    editingPriority,
+    setEditingDueDate,
+    setEditingPriority,
     toggleTask,
     updateTask,
     deleteTask,
@@ -67,6 +71,10 @@ const TaskList = ({
                     editingText={editingText}
                     setEditingText={setEditingText}
                     setEditingTaskId={setEditingTaskId}
+                    editingDueDate={editingDueDate}
+                    editingPriority={editingPriority}
+                    setEditingDueDate={setEditingDueDate}
+                    setEditingPriority={setEditingPriority}
                     toggleTask={toggleTask}
                     updateTask={updateTask}
                     deleteTask={deleteTask}
