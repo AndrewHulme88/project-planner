@@ -29,9 +29,17 @@ const TaskItem = ({
         <li className='task'>
         {isEditing ? (
           <>
-          <input value={editingText} onChange={(e) => setEditingText(e.target.value)}/>
-          <button onClick={updateTask}>Save</button>
-          <button onClick={() => setEditingTaskId(null)}>Cancel</button>
+            <input value={editingText} onChange={(e) => setEditingText(e.target.value)}/>
+            <input type="date" value={editingDueDate} onChange={(e) => setEditingDueDate(e.target.value)} />
+            <select value={editingPriority} onChange={(e) => setEditingPriority(e.target.value)}>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+            <div className="task-actions">
+              <button onClick={updateTask}>Save</button>
+              <button onClick={() => setEditingTaskId(null)}>Cancel</button>
+            </div>
           </>
         ) : (
           <>
